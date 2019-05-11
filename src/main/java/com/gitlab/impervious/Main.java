@@ -83,6 +83,7 @@ public class Main {
 
         String token = getAndSet(yamlFile);
 
+
         yamlFile.save();
         yamlFile.load();
 
