@@ -24,6 +24,6 @@ public class Util {
                 .setDescription(msg.getContentDisplay())
                 .setFooter(msg.getGuild().getName() + "/#" + msg.getTextChannel().getName(), msg.getGuild().getIconUrl())
                 .setTimestamp(Instant.now())
-                .build()).queue();
+                .build()).queue(); 
     }
 }
