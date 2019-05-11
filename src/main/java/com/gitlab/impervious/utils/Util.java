@@ -18,7 +18,7 @@ public class Util {
     }
 
     public static void botLog(Message msg) {
-        Channels.TEMPLOGS.getChannel().sendMessage(new EmbedBuilder()
+        Channels.LOG.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.CYAN)
                 .setAuthor(msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator(), null, msg.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(msg.getContentDisplay())
