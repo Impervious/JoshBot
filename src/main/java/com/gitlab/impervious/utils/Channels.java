@@ -7,7 +7,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
 
 @RequiredArgsConstructor
 public enum Channels {
-    LOG("473993256372404243");
+    LOG("473993256372404243"),
+    NOTIFICATIONS("576886075994275841");
 
     @Getter
     private final String id;

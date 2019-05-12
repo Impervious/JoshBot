@@ -54,14 +54,14 @@ public class Main {
         }
 
         CommandClientBuilder commandBuilder = new CommandClientBuilder();
+        commandBuilder.setGame(Game.watching("ur mum"));
         commandBuilder.setOwnerId("73463573900173312");
-        commandBuilder.setPrefix("?");
+        commandBuilder.setPrefix("!");
         commandBuilder.addCommand(new TestCommand());
 
         JDABuilder builder = new JDABuilder(AccountType.BOT)
                 .setToken(botConfig.getBotToken())
-                .addEventListener(messageEvent, botMention, commandBuilder.build())
-                .setGame(Game.of(Game.GameType.STREAMING, "ur mum"));
+                .addEventListener(messageEvent, botMention, commandBuilder.build());
         jda = builder.build();
     }
 
@@ -82,7 +82,6 @@ public class Main {
         yamlFile.load();
 
         String token = getAndSet(yamlFile);
-
 
         yamlFile.save();
         yamlFile.load();
