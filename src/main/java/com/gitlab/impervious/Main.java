@@ -4,6 +4,7 @@ import com.gitlab.impervious.commands.TestCommand;
 
 import com.gitlab.impervious.events.BotMention;
 import com.gitlab.impervious.events.MessageEvent;
+import com.gitlab.impervious.jobs.Job420;
 import com.gitlab.impervious.utils.BotConfig;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
@@ -15,12 +16,18 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
 import org.simpleyaml.configuration.file.YamlFile;
 import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 import javax.security.auth.login.LoginException;
 
 import java.io.IOException;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
 
 public class Main {
 
@@ -33,6 +40,17 @@ public class Main {
 
     private static final BotMention botMention = new BotMention();
     private static final MessageEvent messageEvent = new MessageEvent();
+
+    private SchedulerFactory factory = new StdSchedulerFactory();
+    private Scheduler sched;
+
+    {
+        try {
+            sched = factory.getScheduler();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws IOException, LoginException {
         new Main();
@@ -63,14 +81,40 @@ public class Main {
                 .setToken(botConfig.getBotToken())
                 .addEventListener(messageEvent, botMention, commandBuilder.build());
         jda = builder.build();
+
+        try {
+            if (sched != null) {
+                sched.start();
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+
+        JobDetail job = newJob(Job420.class)
+                .withIdentity("job", "group1")
+                .build();
+
+        CronTrigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("trigger1", "group1")
+                .startNow()
+                .withSchedule(cronSchedule("0 20 16 * * ?"))
+                .build();
+        try {
+            if (sched != null) {
+                sched.scheduleJob(job, trigger);
+                System.out.println("scheduler started");
+            }
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Main getInstance() {
         return instance;
     }
 
-    public static JDAClient getClient() {
-        return client;
+    public JDA getClient() {
+        return jda;
     }
 
     public static Guild getGuild() {

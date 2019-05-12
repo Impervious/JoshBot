@@ -1,8 +1,10 @@
 package com.gitlab.impervious.utils;
 
 import com.gitlab.impervious.Main;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import net.dv8tion.jda.core.entities.TextChannel;
 
 @RequiredArgsConstructor
