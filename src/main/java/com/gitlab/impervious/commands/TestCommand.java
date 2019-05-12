@@ -1,6 +1,6 @@
 package com.gitlab.impervious.commands;
 
-import com.gitlab.impervious.jobs.TestJob;
+import com.gitlab.impervious.utils.Util;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import org.quartz.*;
@@ -31,6 +31,7 @@ public class TestCommand extends Command {
     protected void execute(CommandEvent commandEvent) {
         commandEvent.getMessage().delete().queue();
         commandEvent.reply("hello");
+        Util.notify420(commandEvent.getMessage());
 
         /*try {
             sched.start();
@@ -38,7 +39,7 @@ public class TestCommand extends Command {
             e.printStackTrace();
         }
 
-        JobDetail job = newJob(TestJob.class)
+        JobDetail job = newJob(Job420.class)
                 .withIdentity("job", "group1")
                 .build();
 
