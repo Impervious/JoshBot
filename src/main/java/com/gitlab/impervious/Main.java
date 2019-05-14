@@ -5,6 +5,7 @@ import com.gitlab.impervious.commands.TestCommand;
 import com.gitlab.impervious.events.BotMention;
 import com.gitlab.impervious.events.MessageEvent;
 import com.gitlab.impervious.jobs.Job420;
+import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.BotConfig;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
@@ -90,18 +91,37 @@ public class Main {
             e.printStackTrace();
         }
 
-        JobDetail job = newJob(Job420.class)
-                .withIdentity("job", "group1")
+        /*
+         *  JOBS
+         */
+
+        JobDetail job420 = newJob(Job420.class)
+                .withIdentity("job420", "group1")
                 .build();
 
-        CronTrigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("trigger1", "group1")
+        JobDetail jobPaymentReminders = newJob(JobPaymentReminders.class)
+                .withIdentity("jobPay", "group1")
+                .build();
+
+        /*
+         *  TRIGGERS
+         */
+
+        CronTrigger triggerPay = TriggerBuilder.newTrigger()
+                .withIdentity("triggerpay", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0 20 16 * * ?"))
+                .withSchedule(cronSchedule("0 0 12 2,7 * ?")) // FIRES AT 12PM(NOON) ON THE 2ND AND 7TH OF EVERY MONTH
+                .build();
+
+        CronTrigger trigger420 = TriggerBuilder.newTrigger()
+                .withIdentity("trigger420", "group1")
+                .startNow()
+                .withSchedule(cronSchedule("0 20 16 * * ?")) // FIRES AT 4:20PM EVERYDAY
                 .build();
         try {
             if (sched != null) {
-                sched.scheduleJob(job, trigger);
+                sched.scheduleJob(job420, trigger420);
+                sched.scheduleJob(jobPaymentReminders, triggerPay);
                 System.out.println("scheduler started");
             }
         } catch (SchedulerException e) {

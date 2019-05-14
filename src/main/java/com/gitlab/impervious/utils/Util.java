@@ -1,22 +1,13 @@
 package com.gitlab.impervious.utils;
 
-import com.gitlab.impervious.Main;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 
 import java.awt.*;
 import java.time.Instant;
 
 public class Util {
-
-    private static Main main = Main.getInstance();
-    private static JDA jda;
-    private static Guild guild;
-    private static User user;
 
     @SuppressWarnings("unused")
     public void deleteMessage(MessageChannel messge) {
@@ -26,7 +17,17 @@ public class Util {
 
     }
 
-    public static void notify420(String msg) {
+    public static void notifyPayment() {
+        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+                .setColor(Color.MAGENTA)
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setDescription("You have an upcoming credit card payment")
+                .setFooter("The Hoob" + "/#" + "notifications", null)
+                .setTimestamp(Instant.now())
+                .build()).queue();
+    }
+
+    public static void notify420() {
 
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.MAGENTA)
