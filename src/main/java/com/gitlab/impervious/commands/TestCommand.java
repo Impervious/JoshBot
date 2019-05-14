@@ -16,6 +16,6 @@ public class TestCommand extends Command {
     protected void execute(CommandEvent commandEvent) {
         commandEvent.getMessage().delete().queue();
         commandEvent.reply("hello");
-        Util.notify420("h");
+        Util.notify420();
     }
 }

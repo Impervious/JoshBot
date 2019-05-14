@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
-import java.time.Instant;
+import java.time.*;
 
 public class Util {
 
@@ -17,18 +17,17 @@ public class Util {
 
     }
 
-    public static void notifyPayment() {
+    public static void notifyPayment(String msg, Color color) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
-                .setColor(Color.MAGENTA)
+                .setColor(color)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
-                .setDescription("You have an upcoming credit card payment")
+                .setDescription(msg)
                 .setFooter("The Hoob" + "/#" + "notifications", null)
                 .setTimestamp(Instant.now())
                 .build()).queue();
     }
 
     public static void notify420() {
-
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.MAGENTA)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")

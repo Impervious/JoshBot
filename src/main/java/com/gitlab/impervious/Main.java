@@ -127,6 +127,7 @@ public class Main {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+
     }
 
     public static Main getInstance() {
