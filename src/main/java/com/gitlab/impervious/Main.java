@@ -1,5 +1,7 @@
 package com.gitlab.impervious;
 
+import com.github.dvdme.ForecastIOLib.FIOCurrently;
+import com.github.dvdme.ForecastIOLib.ForecastIO;
 import com.gitlab.impervious.commands.TestCommand;
 
 import com.gitlab.impervious.events.BotMention;
@@ -9,7 +11,6 @@ import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.BotConfig;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
-
 import net.dv8tion.jda.client.JDAClient;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -127,7 +128,6 @@ public class Main {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-
     }
 
     public static Main getInstance() {

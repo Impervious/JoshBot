@@ -2,25 +2,27 @@ package com.gitlab.impervious.utils;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
 
 import java.awt.*;
 import java.time.*;
 
 public class Util {
 
-    @SuppressWarnings("unused")
-    public void deleteMessage(MessageChannel messge) {
-        try {
-            messge.deleteMessageById(messge.getLatestMessageId());
-        } catch(Exception ignored) {}
-
-    }
-
     public static void notifyPayment(String msg, Color color) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(color)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setDescription(msg)
+                .setFooter("The Hoob" + "/#" + "notifications", null)
+                .setTimestamp(Instant.now())
+                .build()).queue();
+    }
+
+    public static void notifyTest(String title, String msg) {
+        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+                .setColor(Color.BLACK)
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setTitle(title)
                 .setDescription(msg)
                 .setFooter("The Hoob" + "/#" + "notifications", null)
                 .setTimestamp(Instant.now())
