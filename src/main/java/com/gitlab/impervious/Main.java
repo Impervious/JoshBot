@@ -1,49 +1,39 @@
 package com.gitlab.impervious;
 
-import com.github.dvdme.ForecastIOLib.FIOCurrently;
-import com.github.dvdme.ForecastIOLib.ForecastIO;
-import com.gitlab.impervious.commands.TestCommand;
-
 import com.gitlab.impervious.events.BotMention;
 import com.gitlab.impervious.events.MessageEvent;
 import com.gitlab.impervious.jobs.Job420;
+import com.gitlab.impervious.jobs.JobDailyWeather;
 import com.gitlab.impervious.jobs.JobPaymentReminders;
-import com.gitlab.impervious.utils.BotConfig;
+import com.gitlab.impervious.utils.Util;
 
-import com.jagrosh.jdautilities.command.CommandClientBuilder;
-import net.dv8tion.jda.client.JDAClient;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.entities.Guild;
-
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
-
-import org.simpleyaml.configuration.file.YamlFile;
-import org.simpleyaml.exceptions.InvalidConfigurationException;
-
-import javax.security.auth.login.LoginException;
-
-import java.io.IOException;
+import java.util.Optional;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.managers.GuildManager;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
+import javax.security.auth.login.LoginException;
+
 public class Main {
 
-    private static YamlFile yamlFile;
-    private static BotConfig botConfig;
-    private static Main instance;
     private static JDA jda;
-    private static JDAClient client;
     public static Guild guild;
+    private static Main instance;
 
     private static final BotMention botMention = new BotMention();
     private static final MessageEvent messageEvent = new MessageEvent();
 
-    private SchedulerFactory factory = new StdSchedulerFactory();
+    //private WeatherManager wM = new WeatherManager();
+
+    private final SchedulerFactory factory = new StdSchedulerFactory();
     private Scheduler sched;
 
     {
@@ -54,35 +44,23 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException, LoginException {
+    public static void main(String[] args) throws LoginException {
         new Main();
     }
 
-    private Main() throws IOException, LoginException {
-        yamlFile = new YamlFile("settings.yaml");
-
-        if(!yamlFile.exists()) {
-            yamlFile.createNewFile(true);
+    private Main() throws LoginException {
+        Optional<String> token = Util.getBotToken();
+        if (token.isEmpty()) {
+            System.out.println("Add your token to settings.yaml");
+            System.out.println("Shutting down...");
+            System.exit(0);
+            return;
         }
 
-        try {
-            yamlFile.load();
-            loadConfig();
-        } catch(InvalidConfigurationException ex) {
-            ex.printStackTrace();
-            System.exit(1);
-        }
-
-        CommandClientBuilder commandBuilder = new CommandClientBuilder();
-        commandBuilder.setGame(Game.watching("ur mum"));
-        commandBuilder.setOwnerId("73463573900173312");
-        commandBuilder.setPrefix("!");
-        commandBuilder.addCommand(new TestCommand());
-
-        JDABuilder builder = new JDABuilder(AccountType.BOT)
-                .setToken(botConfig.getBotToken())
-                .addEventListener(messageEvent, botMention, commandBuilder.build());
-        jda = builder.build();
+        JDABuilder builder = JDABuilder.createDefault(token.get());
+        builder.setActivity(Activity.watching("you."));
+        builder.build();
+        System.out.println("logged in");
 
         try {
             if (sched != null) {
@@ -104,6 +82,10 @@ public class Main {
                 .withIdentity("jobPay", "group1")
                 .build();
 
+        JobDetail jobDailyWeather = newJob(JobDailyWeather.class)
+                .withIdentity("jobDailyWeather", "group1")
+                .build();
+
         /*
          *  TRIGGERS
          */
@@ -119,10 +101,17 @@ public class Main {
                 .startNow()
                 .withSchedule(cronSchedule("0 20 16 * * ?")) // FIRES AT 4:20PM EVERYDAY
                 .build();
+
+        CronTrigger triggerDailyWeather = TriggerBuilder.newTrigger()
+                .withIdentity("triggerDailyWeather", "group1")
+                .startNow()
+                .withSchedule(cronSchedule("0 45 8 ? * *"))
+                .build();
         try {
             if (sched != null) {
                 sched.scheduleJob(job420, trigger420);
                 sched.scheduleJob(jobPaymentReminders, triggerPay);
+                sched.scheduleJob(jobDailyWeather, triggerDailyWeather);
                 System.out.println("scheduler started");
             }
         } catch (SchedulerException e) {
@@ -134,30 +123,7 @@ public class Main {
         return instance;
     }
 
-    public JDA getClient() {
-        return jda;
-    }
-
     public static Guild getGuild() {
         return jda.getGuildById("247394948331077632");
-    }
-
-    private static void loadConfig() throws IOException, InvalidConfigurationException {
-        yamlFile.save();
-        yamlFile.load();
-
-        String token = getAndSet(yamlFile);
-
-        yamlFile.save();
-        yamlFile.load();
-
-        botConfig = new BotConfig(token);
-    }
-
-    private static String getAndSet(YamlFile file) {
-        if(!file.isSet("token")) {
-            file.set("token", "");
-        }
-        return file.getString("token");
     }
 }

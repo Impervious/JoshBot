@@ -17,10 +17,10 @@ public class JobPaymentReminders implements Job {
         Calendar cal = Calendar.getInstance();
         int monthDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        if(monthDay == 2) {
+        /*if(monthDay == 2) {
             Util.notifyPayment("Amazon Prime auto-renewal is today.", amazonColor);
         } else if(monthDay == 7) {
             Util.notifyPayment("Spotify Premium auto-renewal is today.", spotifyColor);
-        }
+        }*/
     }
 }
