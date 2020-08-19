@@ -17,6 +17,7 @@ public class TestCommand extends Command {
     @Override
     protected void execute(CommandEvent event) {
         System.out.println("test");
+        
         try {
             URL yahoo = new URL("http://api.openweathermap.org/data/2.5/weather?id=6094578&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
             URLConnection yc = yahoo.openConnection();
