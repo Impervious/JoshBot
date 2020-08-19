@@ -19,9 +19,11 @@ public class Util {
 
     static {
         try {
-            botPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
-        } catch(URISyntaxException ex) {
-            ex.printStackTrace();
+            File jarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
+            botPath = new File(jarPath, "data");
+            botPath.mkdir();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
     }
 
