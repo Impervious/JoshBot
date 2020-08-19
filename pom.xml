@@ -45,8 +45,8 @@
 
     <repositories>
         <repository>
-            <id>jcenter</id>
-            <name>jcenter-bintray</name>
+            <id>central</id>
+            <name>bintray</name>
             <url>https://jcenter.bintray.com</url>
         </repository>
             <repository>
@@ -56,6 +56,13 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.jagrosh</groupId>
+            <artifactId>jda-utilities</artifactId>
+            <version>3.0.4</version>
+            <scope>compile</scope>
+            <type>pom</type>
+        </dependency>
         <!-- JDA -->
         <dependency>
             <groupId>net.dv8tion</groupId>
@@ -70,13 +77,7 @@
         </dependency>
 
 
-        <dependency>
-            <groupId>com.jagrosh</groupId>
-            <artifactId>jda-utilities</artifactId>
-            <version>3.0.4</version>
-            <scope>compile</scope>
-            <type>pom</type>
-        </dependency>
+
 
         <!--  -->
         <dependency>

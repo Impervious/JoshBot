@@ -1,5 +1,6 @@
 package com.gitlab.impervious;
 
+import com.gitlab.impervious.commands.TestCommand;
 import com.gitlab.impervious.events.BotMention;
 import com.gitlab.impervious.events.MessageEvent;
 import com.gitlab.impervious.jobs.JobDailyWeather;
@@ -11,6 +12,8 @@ import java.util.Optional;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 
+import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -55,9 +58,19 @@ public class Main {
             return;
         }
 
-        JDABuilder builder = JDABuilder.createDefault(token.get());
+        CommandClientBuilder client = new CommandClientBuilder();
+        client.useDefaultGame();
+        client.setOwnerId("73463573900173312");
+        client.setPrefix("!!");
+        client.addCommand(new TestCommand());
+
+        new JDABuilder(AccountType.BOT)
+                .setToken(token.get())
+                .addEventListeners(client.build())
+                .build();
+        /*JDABuilder builder = JDABuilder.createDefault(token.get());
         builder.setActivity(Activity.watching("you."));
-        builder.build();
+        builder.build();*/
         System.out.println("logged in");
 
         try {
@@ -67,6 +80,8 @@ public class Main {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
+
+
 
         /*
          *  JOBS
