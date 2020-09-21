@@ -1,12 +1,13 @@
 package com.gitlab.impervious.commands;
 
+import com.gitlab.impervious.weather.WeatherRoot;
+import com.google.gson.*;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import lombok.SneakyThrows;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class TestCommand extends Command {
 
@@ -14,23 +15,34 @@ public class TestCommand extends Command {
         this.name = "test";
     }
 
-    @Override
-    protected void execute(CommandEvent event) {
-        System.out.println("test");
+    private static String readURL(String urlString) throws Exception {
+        BufferedReader reader = null;
 
         try {
-            URL yahoo = new URL("http://api.openweathermap.org/data/2.5/weather?id=6094578&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
-            URLConnection yc = yahoo.openConnection();
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(
-                            yc.getInputStream()));
-            String inputLine;
-
-            while ((inputLine = in.readLine()) != null)
-                System.out.println(inputLine);
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?id=6094578&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuilder builder = new StringBuilder();
+            int read;
+            char[] chars = new char[1024];
+            while ((read = reader.read(chars)) != -1) {
+                builder.append(chars, 0, read);
+            }
+            return builder.toString();
+        } finally {
+            if(reader != null) {
+                reader.close();
+            }
         }
+    }
+
+    @SneakyThrows
+    @Override
+    protected void execute(CommandEvent event) {
+        String json = readURL("http://api.openweathermap.org/data/2.5/weather?id=6094578&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
+
+        Gson gson = new Gson();
+
+        WeatherRoot weatherRoot = gson.fromJson(json, WeatherRoot.class);
+        System.out.println("It's currently " + weatherRoot.getMain().getTemp());
     }
 }

@@ -60,7 +60,7 @@ public class Main {
         CommandClientBuilder client = new CommandClientBuilder();
         client.useDefaultGame();
         client.setOwnerId("73463573900173312");
-        client.setPrefix("!!");
+        client.setPrefix("!");
         client.addCommand(new TestCommand());
 
         new JDABuilder(AccountType.BOT)
