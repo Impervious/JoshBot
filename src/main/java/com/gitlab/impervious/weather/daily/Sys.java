@@ -1,5 +1,5 @@
 
-package com.gitlab.impervious.weather;
+package com.gitlab.impervious.weather.daily;
 
 import com.google.gson.annotations.SerializedName;
 

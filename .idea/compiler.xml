@@ -14,7 +14,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="JoshBot" options="--add-exports jdk.scripting.nashorn/jdk.nashorn.internal.parser=ALL-UNNAMED" />
+      <module name="JoshBot" options="" />
     </option>
   </component>
 </project>

@@ -81,15 +81,6 @@ public class Util {
                 .build()).queue();
     }
 
-    public static void notify420() {
-        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
-                .setColor(Color.MAGENTA)
-                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
-                .setDescription("jublz")
-                .setTimestamp(Instant.now())
-                .build()).queue();
-    }
-
     public static void errorLog(Message message, Exception e) {
         e.printStackTrace();
         EmbedBuilder bld = new EmbedBuilder();
@@ -110,6 +101,32 @@ public class Util {
                 .setTimestamp(Instant.now())
                 .setAuthor(message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator(), null, message.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(message.getContentRaw())
+                .addField("\u200B", "\u200B", false)
+                .addField("Exception:", e.toString(), false)
+                .addField("Stack:", stackString, false)
+                .build()).queue();
+    }
+
+    public static void errorLog(String msg, Exception e) {
+        e.printStackTrace();
+        EmbedBuilder bld = new EmbedBuilder();
+
+        StringBuilder stack = new StringBuilder();
+        for(StackTraceElement s : e.getStackTrace()) {
+            stack.append(s.toString());
+            stack.append("\n");
+        }
+
+        String stackString = stack.toString();
+        if(stackString.length() > 1024) {
+            stackString = stackString.substring(0, 1024);
+        }
+
+        Channels.ERRORS.getChannel().sendMessage(bld
+                .setColor(Color.RED)
+                .setTimestamp(Instant.now())
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setDescription(msg)
                 .addField("\u200B", "\u200B", false)
                 .addField("Exception:", e.toString(), false)
                 .addField("Stack:", stackString, false)

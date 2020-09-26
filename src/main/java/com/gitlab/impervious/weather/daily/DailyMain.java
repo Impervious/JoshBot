@@ -1,5 +1,5 @@
 
-package com.gitlab.impervious.weather;
+package com.gitlab.impervious.weather.daily;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -7,9 +7,9 @@ import java.net.URL;
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class WeatherRoot {
+public class DailyMain {
 
-    public WeatherRoot() throws Exception {
+    public DailyMain() throws Exception {
     }
 
     private static String readURL(String urlString) throws Exception {

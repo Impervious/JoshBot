@@ -24,8 +24,6 @@ import javax.security.auth.login.LoginException;
 public class JoshBot {
 
     private static JDA jda;
-    public static Guild guild;
-    private static JoshBot instance;
 
     private final SchedulerFactory factory = new StdSchedulerFactory();
     private Scheduler sched;
@@ -38,12 +36,12 @@ public class JoshBot {
         }
     }
 
-    public static void main(String[] args) throws LoginException, InterruptedException {
+    public static void main(String[] args) throws LoginException {
         new JoshBot();
     }
 
     private JoshBot() throws LoginException {
-        instance = this;
+        JoshBot instance = this;
 
         Optional<String> token = Util.getBotToken();
         if (token.isEmpty()) {
@@ -62,14 +60,13 @@ public class JoshBot {
         jda = JDABuilder.createDefault(token.get())
                 .addEventListeners(client.build())
                 .build();
-        System.out.println("logged in");
 
         try {
             if (sched != null) {
                 sched.start();
             }
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            Util.errorLog(e.getMessage(), e);
         }
 
         /*
@@ -103,15 +100,10 @@ public class JoshBot {
             if (sched != null) {
                 sched.scheduleJob(jobPaymentReminders, triggerPaymentReminders);
                 sched.scheduleJob(jobDailyWeather, triggerDailyWeather);
-                System.out.println("scheduler started");
             }
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-    }
-
-    public static JoshBot getInstance() {
-        return instance;
     }
 
     public static Guild getGuild() {
