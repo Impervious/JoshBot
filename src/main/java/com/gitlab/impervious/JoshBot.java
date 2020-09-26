@@ -1,8 +1,6 @@
 package com.gitlab.impervious;
 
 import com.gitlab.impervious.commands.TestCommand;
-import com.gitlab.impervious.events.BotMention;
-import com.gitlab.impervious.events.MessageEvent;
 import com.gitlab.impervious.jobs.JobDailyWeather;
 import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.Util;
@@ -13,25 +11,21 @@ import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
-import net.dv8tion.jda.api.AccountType;
+
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Guild;
+
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import javax.security.auth.login.LoginException;
 
-public class Main {
+public class JoshBot {
 
     private static JDA jda;
     public static Guild guild;
-    private static Main instance;
-
-    private static final BotMention botMention = new BotMention();
-    private static final MessageEvent messageEvent = new MessageEvent();
-
-    //private WeatherManager wM = new WeatherManager();
+    private static JoshBot instance;
 
     private final SchedulerFactory factory = new StdSchedulerFactory();
     private Scheduler sched;
@@ -44,11 +38,13 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws LoginException {
-        new Main();
+    public static void main(String[] args) throws LoginException, InterruptedException {
+        new JoshBot();
     }
 
-    private Main() throws LoginException {
+    private JoshBot() throws LoginException {
+        instance = this;
+
         Optional<String> token = Util.getBotToken();
         if (token.isEmpty()) {
             System.out.println("Add your token to settings.yaml");
@@ -63,13 +59,9 @@ public class Main {
         client.setPrefix("!");
         client.addCommand(new TestCommand());
 
-        new JDABuilder(AccountType.BOT)
-                .setToken(token.get())
+        jda = JDABuilder.createDefault(token.get())
                 .addEventListeners(client.build())
                 .build();
-        /*JDABuilder builder = JDABuilder.createDefault(token.get());
-        builder.setActivity(Activity.watching("you."));
-        builder.build();*/
         System.out.println("logged in");
 
         try {
@@ -79,8 +71,6 @@ public class Main {
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
-
-
 
         /*
          *  JOBS
@@ -98,20 +88,20 @@ public class Main {
          *  TRIGGERS
          */
 
-        CronTrigger triggerPay = TriggerBuilder.newTrigger()
+        CronTrigger triggerPaymentReminders = TriggerBuilder.newTrigger()
                 .withIdentity("triggerpay", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0 0 12 2,7 * ?")) // FIRES AT 12PM(NOON) ON THE 2ND AND 7TH OF EVERY MONTH
+                .withSchedule(cronSchedule("0 0 12 2,7 * ?")) // FIRES AT 12PM ON THE 2ND AND 7TH OF EVERY MONTH
                 .build();
 
         CronTrigger triggerDailyWeather = TriggerBuilder.newTrigger()
                 .withIdentity("triggerDailyWeather", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0 45 8 ? * *"))
+                .withSchedule(cronSchedule("0 0 11 ? * *")) // FIRES EVERYDAY AT 11AM
                 .build();
         try {
             if (sched != null) {
-                sched.scheduleJob(jobPaymentReminders, triggerPay);
+                sched.scheduleJob(jobPaymentReminders, triggerPaymentReminders);
                 sched.scheduleJob(jobDailyWeather, triggerDailyWeather);
                 System.out.println("scheduler started");
             }
@@ -120,7 +110,7 @@ public class Main {
         }
     }
 
-    public static Main getInstance() {
+    public static JoshBot getInstance() {
         return instance;
     }
 

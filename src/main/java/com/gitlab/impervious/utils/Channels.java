@@ -1,6 +1,6 @@
 package com.gitlab.impervious.utils;
 
-import com.gitlab.impervious.Main;
+import com.gitlab.impervious.JoshBot;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.dv8tion.jda.api.entities.TextChannel;
@@ -15,6 +15,6 @@ public enum Channels {
     private final String id;
 
     public TextChannel getChannel() {
-        return Main.getGuild().getTextChannelById(id);
+        return JoshBot.getGuild().getTextChannelById(id);
     }
 }

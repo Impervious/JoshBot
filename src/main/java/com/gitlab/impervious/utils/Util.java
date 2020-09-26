@@ -1,6 +1,6 @@
 package com.gitlab.impervious.utils;
 
-import com.gitlab.impervious.Main;
+import com.gitlab.impervious.JoshBot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -20,7 +20,7 @@ public class Util {
 
     static {
         try {
-            File jarPath = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
+            File jarPath = new File(JoshBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
             botPath = new File(jarPath, "data");
             botPath.mkdir();
         } catch (URISyntaxException e) {
@@ -70,9 +70,9 @@ public class Util {
                 .build()).queue();
     }
 
-    public static void notifyTest(String title, String msg) {
+    public static void notifyWeather(String title, String msg) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
-                .setColor(Color.BLACK)
+                .setColor(Color.YELLOW)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
                 .setTitle(title)
                 .setDescription(msg)
