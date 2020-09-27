@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.*;
+import java.util.Hashtable;
 import java.util.Optional;
 
 public class Util {
@@ -46,6 +47,32 @@ public class Util {
             ex.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    public static String headingToDirection(Float heading) {
+        String strHeading = "?";
+        Hashtable<String, Float> cardinal = new Hashtable<>();
+        cardinal.put("North_1", (float) 0);
+        cardinal.put("Northeast", 45f);
+        cardinal.put("East", 90f);
+        cardinal.put("Southeast", 135f);
+        cardinal.put("South", 180f);
+        cardinal.put("Southwest", 225f);
+        cardinal.put("West", 270f);
+        cardinal.put("Northwest", 315f);
+        cardinal.put("North_2", 360f);
+
+        for (String key: cardinal.keySet()) {
+            Float value = cardinal.get(key);
+            if (Math.abs(heading - value) < 30) {
+                strHeading = key;
+                if (key.contains("North_")) {
+                    strHeading = "North";
+                }
+                break;
+            }
+        }
+        return strHeading;
     }
 
     /*
