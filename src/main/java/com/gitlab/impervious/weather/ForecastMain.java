@@ -1,5 +1,4 @@
-
-package com.gitlab.impervious.weather.forecast;
+package com.gitlab.impervious.weather;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,11 +11,11 @@ public class ForecastMain {
     public ForecastMain() throws Exception {
     }
 
-    private static String readURL(String urlString) throws Exception {
+    private static String readURL() throws Exception {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL(urlString);
+            URL url = new URL("https://api.openweathermap.org/data/2.5/onecall?lat=43.900417&lon=-78.796750&exclude=minutely,hourly&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder builder = new StringBuilder();
             int read;
@@ -32,7 +31,7 @@ public class ForecastMain {
         }
     }
 
-    public String jsonURL = readURL("https://api.openweathermap.org/data/2.5/onecall?lat=43.900417&lon=-78.796750&exclude=minutely,hourly&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
+    public String jsonURL = readURL();
 
     @SerializedName("current")
     private Current mCurrent;

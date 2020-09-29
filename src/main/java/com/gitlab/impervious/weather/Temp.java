@@ -1,4 +1,4 @@
-package com.gitlab.impervious.weather.forecast;
+package com.gitlab.impervious.weather;
 
 import com.google.gson.annotations.SerializedName;
 

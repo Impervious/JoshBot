@@ -97,10 +97,10 @@ public class Util {
                 .build()).queue();
     }
 
-    public static void notifyWeather(String title, String msg) {
+    public static void notifyWeather(String title, String msg, String iconUrl) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.YELLOW)
-                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", iconUrl)
                 .setTitle(title)
                 .setDescription(msg)
                 .setFooter("The Hoob" + "/#" + "notifications", null)

@@ -1,6 +1,7 @@
 package com.gitlab.impervious.commands;
 
-import com.gitlab.impervious.weather.forecast.ForecastMain;
+import com.gitlab.impervious.utils.Util;
+import com.gitlab.impervious.weather.ForecastMain;
 import com.google.gson.Gson;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
@@ -20,9 +21,9 @@ public class TestCommand extends Command {
         ForecastMain forecast = new ForecastMain();
         forecast = gson.fromJson(forecast.jsonURL, ForecastMain.class);
 
-        System.out.println(forecast.getDaily().get(1).getTemp().getMax());
-
-        //Util.notifyWeather("Test", forecast.getDaily().toString());
+        Util.notifyWeather("Daily Forecast",
+                "It is " + Math.round(forecast.getCurrent().getTemp()) + "°C and feels like " + Math.round(forecast.getCurrent().getFeelsLike()) + "°C" + "\n"
+                        + "Wind is blowing at " + Math.round(forecast.getCurrent().getWindSpeed() * 3.6) + " kph " + Util.headingToDirection(Float.valueOf(forecast.getCurrent().getWindDeg())),
+                "https://openweathermap.org/img/wn/" + forecast.getCurrent().getWeather().get(0).getIcon() + ".png");
     }
-
 }

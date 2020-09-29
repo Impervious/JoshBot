@@ -1,10 +1,9 @@
-
-package com.gitlab.impervious.weather.forecast;
+package com.gitlab.impervious.weather;
 
 import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
-public class Current {
+public class Daily {
 
     @SerializedName("clouds")
     private Long mClouds;
@@ -13,9 +12,11 @@ public class Current {
     @SerializedName("dt")
     private Long mDt;
     @SerializedName("feels_like")
-    private Double mFeelsLike;
+    private FeelsLike mFeelsLike;
     @SerializedName("humidity")
     private Long mHumidity;
+    @SerializedName("pop")
+    private Float mPop;
     @SerializedName("pressure")
     private Long mPressure;
     @SerializedName("sunrise")
@@ -23,11 +24,9 @@ public class Current {
     @SerializedName("sunset")
     private Long mSunset;
     @SerializedName("temp")
-    private Double mTemp;
+    private Temp mTemp;
     @SerializedName("uvi")
     private Double mUvi;
-    @SerializedName("visibility")
-    private Long mVisibility;
     @SerializedName("weather")
     private List<Weather> mWeather;
     @SerializedName("wind_deg")
@@ -59,11 +58,11 @@ public class Current {
         mDt = dt;
     }
 
-    public Double getFeelsLike() {
+    public FeelsLike getFeelsLike() {
         return mFeelsLike;
     }
 
-    public void setFeelsLike(Double feelsLike) {
+    public void setFeelsLike(FeelsLike feelsLike) {
         mFeelsLike = feelsLike;
     }
 
@@ -73,6 +72,14 @@ public class Current {
 
     public void setHumidity(Long humidity) {
         mHumidity = humidity;
+    }
+
+    public Float getPop() {
+        return mPop;
+    }
+
+    public void setPop(Float pop) {
+        mPop = pop;
     }
 
     public Long getPressure() {
@@ -99,11 +106,11 @@ public class Current {
         mSunset = sunset;
     }
 
-    public Double getTemp() {
+    public Temp getTemp() {
         return mTemp;
     }
 
-    public void setTemp(Double temp) {
+    public void setTemp(Temp temp) {
         mTemp = temp;
     }
 
@@ -113,14 +120,6 @@ public class Current {
 
     public void setUvi(Double uvi) {
         mUvi = uvi;
-    }
-
-    public Long getVisibility() {
-        return mVisibility;
-    }
-
-    public void setVisibility(Long visibility) {
-        mVisibility = visibility;
     }
 
     public List<Weather> getWeather() {
