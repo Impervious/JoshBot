@@ -18,7 +18,6 @@ public class Util {
 
     private static File botPath;
 
-
     static {
         try {
             File jarPath = new File(JoshBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();

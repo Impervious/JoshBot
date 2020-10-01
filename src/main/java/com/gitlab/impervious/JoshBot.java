@@ -1,6 +1,7 @@
 package com.gitlab.impervious;
 
 import com.gitlab.impervious.commands.TestCommand;
+import com.gitlab.impervious.commands.WeatherCommand;
 import com.gitlab.impervious.jobs.JobDailyWeather;
 import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.Util;
@@ -41,8 +42,6 @@ public class JoshBot {
     }
 
     private JoshBot() throws LoginException {
-        JoshBot instance = this;
-
         Optional<String> token = Util.getBotToken();
         if (token.isEmpty()) {
             System.out.println("Add your token to settings.yaml");
@@ -55,7 +54,7 @@ public class JoshBot {
         client.useDefaultGame();
         client.setOwnerId("73463573900173312");
         client.setPrefix("!");
-        client.addCommand(new TestCommand());
+        client.addCommands(new TestCommand(), new WeatherCommand());
 
         jda = JDABuilder.createDefault(token.get())
                 .addEventListeners(client.build())
