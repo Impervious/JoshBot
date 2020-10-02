@@ -3,10 +3,7 @@ package com.gitlab.impervious.covid;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-
 import com.google.gson.annotations.Expose;
 
 public class COVIDMain {
@@ -17,11 +14,8 @@ public class COVIDMain {
     private static String readURL() throws Exception {
         BufferedReader reader = null;
 
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
         try {
-            URL url = new URL("https://api.opencovid.ca/timeseries?stat=cases&loc=ON&date=" + date.format(dateFormatter));
+            URL url = new URL("https://covid-19-report-api.now.sh/api/v1/cases/latest?iso=CA&province=Ontario");
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder builder = new StringBuilder();
             int read;
@@ -40,53 +34,34 @@ public class COVIDMain {
     public String jsonURL = readURL();
 
     @Expose
-    private List<Active> active;
+    private Long count;
     @Expose
-    private List<Case> cases;
+    private List<Datum> data;
     @Expose
-    private List<Mortality> mortality;
-    @Expose
-    private List<Recovered> recovered;
-    @Expose
-    private List<Testing> testing;
+    private String lastUpdate;
 
-    public List<Active> getActive() {
-        return active;
+    public Long getCount() {
+        return count;
     }
 
-    public void setActive(List<Active> active) {
-        this.active = active;
+    public void setCount(Long count) {
+        this.count = count;
     }
 
-    public List<Case> getCases() {
-        return cases;
+    public List<Datum> getData() {
+        return data;
     }
 
-    public void setCases(List<Case> cases) {
-        this.cases = cases;
+    public void setData(List<Datum> data) {
+        this.data = data;
     }
 
-    public List<Mortality> getMortality() {
-        return mortality;
+    public String getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setMortality(List<Mortality> mortality) {
-        this.mortality = mortality;
+    public void setLastUpdate(String lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
-    public List<Recovered> getRecovered() {
-        return recovered;
-    }
-
-    public void setRecovered(List<Recovered> recovered) {
-        this.recovered = recovered;
-    }
-
-    public List<Testing> getTesting() {
-        return testing;
-    }
-
-    public void setTesting(List<Testing> testing) {
-        this.testing = testing;
-    }
 }

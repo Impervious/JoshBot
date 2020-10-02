@@ -159,6 +159,31 @@ public class Util {
                 .build()).queue();
     }
 
+    public static void errorLog(Exception e) {
+        e.printStackTrace();
+        EmbedBuilder bld = new EmbedBuilder();
+
+        StringBuilder stack = new StringBuilder();
+        for(StackTraceElement s : e.getStackTrace()) {
+            stack.append(s.toString());
+            stack.append("\n");
+        }
+
+        String stackString = stack.toString();
+        if(stackString.length() > 1024) {
+            stackString = stackString.substring(0, 1024);
+        }
+
+        Channels.ERRORS.getChannel().sendMessage(bld
+                .setColor(Color.RED)
+                .setTimestamp(Instant.now())
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .addField("\u200B", "\u200B", false)
+                .addField("Exception:", e.toString(), false)
+                .addField("Stack:", stackString, false)
+                .build()).queue();
+    }
+
     public static void botLog(Message msg) {
         Channels.LOG.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(Color.CYAN)

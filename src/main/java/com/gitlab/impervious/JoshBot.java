@@ -2,7 +2,7 @@ package com.gitlab.impervious;
 
 import com.gitlab.impervious.commands.TestCommand;
 import com.gitlab.impervious.commands.WeatherCommand;
-import com.gitlab.impervious.jobs.JobDailyWeather;
+import com.gitlab.impervious.jobs.JobDailyUpdates;
 import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.Util;
 
@@ -76,7 +76,7 @@ public class JoshBot {
                 .withIdentity("jobPay", "group1")
                 .build();
 
-        JobDetail jobDailyWeather = newJob(JobDailyWeather.class)
+        JobDetail jobDailyWeather = newJob(JobDailyUpdates.class)
                 .withIdentity("jobDailyWeather", "group1")
                 .build();
 

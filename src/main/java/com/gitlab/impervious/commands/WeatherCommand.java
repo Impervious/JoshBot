@@ -12,9 +12,6 @@ import lombok.SneakyThrows;
 
 import org.apache.commons.text.WordUtils;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class WeatherCommand extends Command {
 
     public WeatherCommand() {
@@ -24,9 +21,6 @@ public class WeatherCommand extends Command {
 
     @SneakyThrows
     protected void execute(CommandEvent event) {
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        System.out.println(date.format(dateFormatter));
         Gson gson = new Gson();
 
         ForecastMain forecast = new ForecastMain();
