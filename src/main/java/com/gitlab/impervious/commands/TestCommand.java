@@ -1,14 +1,22 @@
 package com.gitlab.impervious.commands;
 
+import com.gitlab.impervious.JoshBot;
 import com.gitlab.impervious.covid.COVIDMain;
 import com.gitlab.impervious.utils.Channels;
 import com.gitlab.impervious.utils.Util;
 import com.gitlab.impervious.weather.ForecastMain;
-import com.google.gson.Gson;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import lombok.SneakyThrows;
+import com.google.gson.Gson;
+
 import org.apache.commons.text.WordUtils;
+
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
+import lombok.SneakyThrows;
 
 public class TestCommand extends Command {
 

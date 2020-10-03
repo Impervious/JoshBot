@@ -41,7 +41,7 @@ public class JoshBot {
         new JoshBot();
     }
 
-    private JoshBot() throws LoginException {
+    public JoshBot() throws LoginException {
         Optional<String> token = Util.getBotToken();
         if (token.isEmpty()) {
             System.out.println("Add your token to settings.yaml");
@@ -72,33 +72,34 @@ public class JoshBot {
          *  JOBS
          */
 
-        JobDetail jobPaymentReminders = newJob(JobPaymentReminders.class)
-                .withIdentity("jobPay", "group1")
+        JobDetail dailyUpdateJob = newJob(JobDailyUpdates.class)
+                .withIdentity("jobDailyWeather", "group1")
                 .build();
 
-        JobDetail jobDailyWeather = newJob(JobDailyUpdates.class)
-                .withIdentity("jobDailyWeather", "group1")
+        JobDetail paymentReminderJob = newJob(JobPaymentReminders.class)
+                .withIdentity("jobPay", "group1")
                 .build();
 
         /*
          *  TRIGGERS
          */
 
-        CronTrigger triggerPaymentReminders = TriggerBuilder.newTrigger()
-                .withIdentity("triggerpay", "group1")
+        CronTrigger dailyUpdateTrigger = TriggerBuilder.newTrigger()
+                .withIdentity("dailyUpdateTrigger", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0 0 12 2,7 * ?")) // FIRES AT 12PM ON THE 2ND AND 7TH OF EVERY MONTH
+                .withSchedule(cronSchedule("0 0 11 ? * * *")) // FIRES EVERYDAY AT 11AM
                 .build();
 
-        CronTrigger triggerDailyWeather = TriggerBuilder.newTrigger()
-                .withIdentity("triggerDailyWeather", "group1")
+        CronTrigger dailyPaymentTrigger = TriggerBuilder.newTrigger()
+                .withIdentity("dailyPaymentTrigger", "group1")
                 .startNow()
-                .withSchedule(cronSchedule("0 0 11 ? * *")) // FIRES EVERYDAY AT 11AM
+                .withSchedule(cronSchedule("2 0 11 ? * * *")) // FIRES EVERYDAY AT 11AM + 2 SECONDS
                 .build();
         try {
             if (sched != null) {
-                sched.scheduleJob(jobPaymentReminders, triggerPaymentReminders);
-                sched.scheduleJob(jobDailyWeather, triggerDailyWeather);
+                sched.scheduleJob(dailyUpdateJob, dailyUpdateTrigger);
+                sched.scheduleJob(paymentReminderJob, dailyPaymentTrigger);
+
             }
         } catch (SchedulerException e) {
             e.printStackTrace();
