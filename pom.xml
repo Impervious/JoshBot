@@ -163,6 +163,19 @@
             <version>1.9</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.jreddit</groupId>
+            <artifactId>jreddit</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rometools</groupId>
+            <artifactId>rome-parent</artifactId>
+            <version>1.15.0</version>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
 
 </project>

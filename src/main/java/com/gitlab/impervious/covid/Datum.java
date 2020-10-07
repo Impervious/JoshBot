@@ -1,78 +1,31 @@
 package com.gitlab.impervious.covid;
 
-import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Datum {
 
-    @Expose
-    private Long confirmed;
-    @Expose
-    private Countrycode countrycode;
-    @Expose
-    private String countryregion;
-    @Expose
-    private Long deaths;
-    @Expose
-    private String lastupdate;
-    @Expose
-    private Location location;
-    @Expose
-    private String provincestate;
+    @SerializedName("change_cases")
+    private Long changeCases;
 
-    public Long getConfirmed() {
-        return confirmed;
+    public Long getChangeCases() {
+        return changeCases;
     }
 
-    public void setConfirmed(Long confirmed) {
-        this.confirmed = confirmed;
-    }
+    public static class Builder {
 
-    public Countrycode getCountrycode() {
-        return countrycode;
-    }
+        private Long changeCases;
 
-    public void setCountrycode(Countrycode countrycode) {
-        this.countrycode = countrycode;
-    }
+        public Datum.Builder withChangeCases(Long changeCases) {
+            this.changeCases = changeCases;
+            return this;
+        }
 
-    public String getCountryregion() {
-        return countryregion;
-    }
+        public Datum build() {
+            Datum datum = new Datum();
+            datum.changeCases = changeCases;
+            return datum;
+        }
 
-    public void setCountryregion(String countryregion) {
-        this.countryregion = countryregion;
-    }
-
-    public Long getDeaths() {
-        return deaths;
-    }
-
-    public void setDeaths(Long deaths) {
-        this.deaths = deaths;
-    }
-
-    public String getLastupdate() {
-        return lastupdate;
-    }
-
-    public void setLastupdate(String lastupdate) {
-        this.lastupdate = lastupdate;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public String getProvincestate() {
-        return provincestate;
-    }
-
-    public void setProvincestate(String provincestate) {
-        this.provincestate = provincestate;
     }
 
 }

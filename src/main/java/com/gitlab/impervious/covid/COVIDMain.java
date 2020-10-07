@@ -1,10 +1,15 @@
+
 package com.gitlab.impervious.covid;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+
 import com.google.gson.annotations.Expose;
+import lombok.SneakyThrows;
 
 public class COVIDMain {
 
@@ -14,8 +19,11 @@ public class COVIDMain {
     private static String readURL() throws Exception {
         BufferedReader reader = null;
 
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         try {
-            URL url = new URL("https://covid-19-report-api.now.sh/api/v1/cases/latest?iso=CA&province=Ontario");
+            URL url = new URL("https://api.covid19tracker.ca/reports/province/on?stat=cases&date=" + date.format(dateFormatter));
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder builder = new StringBuilder();
             int read;
@@ -34,34 +42,41 @@ public class COVIDMain {
     public String jsonURL = readURL();
 
     @Expose
-    private Long count;
-    @Expose
     private List<Datum> data;
     @Expose
-    private String lastUpdate;
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
+    private String province;
 
     public List<Datum> getData() {
         return data;
     }
 
-    public void setData(List<Datum> data) {
-        this.data = data;
+    public String getProvince() {
+        return province;
     }
 
-    public String getLastUpdate() {
-        return lastUpdate;
-    }
+    public static class Builder {
 
-    public void setLastUpdate(String lastUpdate) {
-        this.lastUpdate = lastUpdate;
+        private List<Datum> data;
+        private String province;
+
+        public COVIDMain.Builder withData(List<Datum> data) {
+            this.data = data;
+            return this;
+        }
+
+        public COVIDMain.Builder withProvince(String province) {
+            this.province = province;
+            return this;
+        }
+
+        @SneakyThrows
+        public COVIDMain build() {
+            COVIDMain cOVIDMain = new COVIDMain();
+            cOVIDMain.data = data;
+            cOVIDMain.province = province;
+            return cOVIDMain;
+        }
+
     }
 
 }
