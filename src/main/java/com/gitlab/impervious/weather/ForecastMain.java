@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ForecastMain {
@@ -15,7 +17,7 @@ public class ForecastMain {
         BufferedReader reader = null;
 
         try {
-            URL url = new URL("https://api.openweathermap.org/data/2.5/onecall?lat=43.900417&lon=-78.796750&exclude=minutely,hourly&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric");
+            URL url = new URL("https://api.openweathermap.org/data/2.5/onecall?lat=43.900417&lon=-78.796750&exclude=minutely,hourly&appid=0aa063ceb85171fa3a9b1e0882758357&units=metric"); //PROD URL
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuilder builder = new StringBuilder();
             int read;
@@ -33,6 +35,8 @@ public class ForecastMain {
 
     public String jsonURL = readURL();
 
+    @Expose
+    private List<Alert> alerts;
     @SerializedName("current")
     private Current mCurrent;
     @SerializedName("daily")
@@ -45,6 +49,14 @@ public class ForecastMain {
     private String mTimezone;
     @SerializedName("timezone_offset")
     private Long mTimezoneOffset;
+
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
+    }
 
     public Current getCurrent() {
         return mCurrent;

@@ -1,6 +1,8 @@
 package com.gitlab.impervious.utils;
 
 import com.gitlab.impervious.JoshBot;
+import com.gitlab.impervious.weather.ForecastMain;
+import com.google.gson.Gson;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -104,6 +106,23 @@ public class Util {
                 .setDescription(msg)
                 .setFooter("The Hoob" + "/#" + "notifications", null)
                 .setTimestamp(Instant.now())
+                .build()).queue();
+    }
+
+    public static void notifyWeatherAlert(String title, String msg, String iconUrl) throws Exception {
+
+        Gson gson = new Gson();
+
+        ForecastMain forecast = new ForecastMain();
+        forecast = gson.fromJson(forecast.jsonURL, ForecastMain.class);
+
+        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+                .setColor(Color.RED)
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", iconUrl)
+                .setTitle(title)
+                .setDescription(msg)
+                .setFooter("Alert ends:", null)
+                .setTimestamp(Instant.ofEpochSecond(forecast.getAlerts().get(0).getEnd()))
                 .build()).queue();
     }
 
