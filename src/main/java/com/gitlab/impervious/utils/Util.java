@@ -1,8 +1,6 @@
 package com.gitlab.impervious.utils;
 
 import com.gitlab.impervious.JoshBot;
-import com.gitlab.impervious.weather.ForecastMain;
-import com.google.gson.Gson;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -13,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.*;
+import java.time.temporal.TemporalAccessor;
 import java.util.Hashtable;
 import java.util.Optional;
 
@@ -88,6 +87,17 @@ public class Util {
         }
     }
 
+    public static void notifyGameDeal(String title, String msg, String footer, TemporalAccessor timestamp) {
+        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+                .setTitle(title)
+                .setColor(new Color(20, 61, 113))
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setDescription(msg)
+                .setFooter(footer, null)
+                .setTimestamp(timestamp)
+                .build()).queue();
+    }
+
     public static void notifyPayment(String msg, Color color) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
                 .setColor(color)
@@ -98,31 +108,14 @@ public class Util {
                 .build()).queue();
     }
 
-    public static void notifyWeather(String title, String msg, String iconUrl) {
+    public static void notifyWeather(String title, String msg, String iconUrl, TemporalAccessor timestamp, Color color) {
         Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
-                .setColor(Color.YELLOW)
+                .setColor(color)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", iconUrl)
                 .setTitle(title)
                 .setDescription(msg)
                 .setFooter("The Hoob" + "/#" + "notifications", null)
-                .setTimestamp(Instant.now())
-                .build()).queue();
-    }
-
-    public static void notifyWeatherAlert(String title, String msg, String iconUrl) throws Exception {
-
-        Gson gson = new Gson();
-
-        ForecastMain forecast = new ForecastMain();
-        forecast = gson.fromJson(forecast.jsonURL, ForecastMain.class);
-
-        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
-                .setColor(Color.RED)
-                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", iconUrl)
-                .setTitle(title)
-                .setDescription(msg)
-                .setFooter("Alert ends:", null)
-                .setTimestamp(Instant.ofEpochSecond(forecast.getAlerts().get(0).getEnd()))
+                .setTimestamp(timestamp)
                 .build()).queue();
     }
 

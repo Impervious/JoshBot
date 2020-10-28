@@ -3,6 +3,7 @@ package com.gitlab.impervious;
 import com.gitlab.impervious.commands.TestCommand;
 import com.gitlab.impervious.commands.WeatherCommand;
 import com.gitlab.impervious.jobs.JobDailyUpdates;
+import com.gitlab.impervious.jobs.JobGameDeals;
 import com.gitlab.impervious.jobs.JobPaymentReminders;
 import com.gitlab.impervious.utils.Util;
 
@@ -80,6 +81,10 @@ public class JoshBot {
                 .withIdentity("jobPay", "group1")
                 .build();
 
+        JobDetail gameDealsJob = newJob(JobGameDeals.class)
+                .withIdentity("jobGameDeals", "group1")
+                .build();
+
         /*
          *  TRIGGERS
          */
@@ -88,6 +93,12 @@ public class JoshBot {
                 .withIdentity("dailyUpdateTrigger", "group1")
                 .startNow()
                 .withSchedule(cronSchedule("0 0 11 ? * * *")) // FIRES EVERYDAY AT 11AM
+                .build();
+
+        CronTrigger gameDealsTrigger = TriggerBuilder.newTrigger()
+                .withIdentity("gameDealsTrigger", "group1")
+                .startNow()
+                .withSchedule(cronSchedule("0 0 16 ? * * *")) // FIRES EVERYDAY AT 4PM
                 .build();
 
         CronTrigger dailyPaymentTrigger = TriggerBuilder.newTrigger()
@@ -99,7 +110,7 @@ public class JoshBot {
             if (sched != null) {
                 sched.scheduleJob(dailyUpdateJob, dailyUpdateTrigger);
                 sched.scheduleJob(paymentReminderJob, dailyPaymentTrigger);
-
+                sched.scheduleJob(gameDealsJob, gameDealsTrigger);
             }
         } catch (SchedulerException e) {
             e.printStackTrace();

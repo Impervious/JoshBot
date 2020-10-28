@@ -1,28 +1,23 @@
-package com.gitlab.impervious.commands;
+package com.gitlab.impervious.jobs;
 
 import com.gitlab.impervious.reddit.RedditMain;
 import com.gitlab.impervious.utils.Channels;
-
+import com.gitlab.impervious.utils.Util;
 import com.google.gson.Gson;
-
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandEvent;
-
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.EmbedBuilder;
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
 
 import java.awt.*;
 import java.time.Instant;
 import java.util.HashMap;
 
-public class TestCommand extends Command {
-
-    public TestCommand() {
-        this.name = "test";
-    }
+public class JobGameDeals implements Job {
 
     @SneakyThrows
-    protected void execute(CommandEvent event) {
+    @Override
+    public void execute(JobExecutionContext jobExecutionContext) {
         Gson gson = new Gson();
 
         RedditMain reddit = new RedditMain();
