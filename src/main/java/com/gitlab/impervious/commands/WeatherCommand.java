@@ -33,17 +33,16 @@ public class WeatherCommand extends Command {
             Util.notifyWeather("Current Forecast:" + "\n"
                             + WordUtils.capitalize(forecast.getCurrent().getWeather().get(0).getDescription()),
                     "Currently it's " + Math.round(forecast.getCurrent().getTemp()) + "°C and feels like " + Math.round(forecast.getCurrent().getFeelsLike()) + "°C" + "\n"
-                            + "Wind is blowing at " + Math.round(forecast.getCurrent().getWindSpeed() * 3.6) + " kph " + Util.headingToDirection(Float.valueOf(forecast.getCurrent().getWindDeg())),
+                            + "Wind is blowing **" + Util.headingToDirection(Float.valueOf(forecast.getDaily().get(0).getWindDeg())) + " at " + Math.round(forecast.getDaily().get(0).getWindSpeed() * 3.6) + " kph**",
                     "https://openweathermap.org/img/wn/" + forecast.getCurrent().getWeather().get(0).getIcon() + ".png", Instant.now(), Color.YELLOW);
 
             Util.notifyWeather("Alert:", forecast.getAlerts().get(0).getDescription(), "https://openweathermap.org/img/wn/" + forecast.getCurrent().getWeather().get(0).getIcon() + ".png", Instant.ofEpochSecond(forecast.getAlerts().get(0).getEnd()), Color.RED);
 
-            System.out.println("there are alerts");
         } else {
             Util.notifyWeather("Current Forecast:" + "\n"
                             + WordUtils.capitalize(forecast.getCurrent().getWeather().get(0).getDescription()),
                     "Currently it's " + Math.round(forecast.getCurrent().getTemp()) + "°C and feels like " + Math.round(forecast.getCurrent().getFeelsLike()) + "°C" + "\n"
-                            + "Wind is blowing at " + Math.round(forecast.getCurrent().getWindSpeed() * 3.6) + " kph " + Util.headingToDirection(Float.valueOf(forecast.getCurrent().getWindDeg())),
+                            + "Wind is blowing at **" + Util.headingToDirection(Float.valueOf(forecast.getDaily().get(0).getWindDeg())) + " at " + Math.round(forecast.getDaily().get(0).getWindSpeed() * 3.6) + " kph**",
                     "https://openweathermap.org/img/wn/" + forecast.getCurrent().getWeather().get(0).getIcon() + ".png", Instant.now(), Color.YELLOW);
         }
     }

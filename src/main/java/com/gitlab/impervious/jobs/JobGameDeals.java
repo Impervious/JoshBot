@@ -2,7 +2,6 @@ package com.gitlab.impervious.jobs;
 
 import com.gitlab.impervious.reddit.RedditMain;
 import com.gitlab.impervious.utils.Channels;
-import com.gitlab.impervious.utils.Util;
 import com.google.gson.Gson;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.EmbedBuilder;

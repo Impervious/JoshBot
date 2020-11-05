@@ -40,10 +40,7 @@ public class JobPaymentReminders implements Job {
         boolean containsDate = Arrays.asList(insurancePaymentDates).contains(todaysDate);
 
         if(containsDate) {
-            System.out.println("ye");
             Util.notifyPayment("Car insurance payment tomorrow", insuranceColor);
-        } else {
-            System.out.println("no");
         }
 
         if(monthDay == 2) {
