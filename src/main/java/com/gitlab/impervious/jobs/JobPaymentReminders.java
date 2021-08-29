@@ -39,7 +39,7 @@ public class JobPaymentReminders implements Job {
 
         boolean containsDate = Arrays.asList(insurancePaymentDates).contains(todaysDate);
 
-        if(containsDate) {
+        /*if(containsDate) {
             Util.notifyPayment("Car insurance payment tomorrow", insuranceColor);
         }
 
@@ -47,6 +47,6 @@ public class JobPaymentReminders implements Job {
             Util.notifyPayment("Amazon Prime auto-renewal is today.", amazonColor);
         } else if(monthDay == 7) {
             Util.notifyPayment("Spotify Premium auto-renewal is today.", spotifyColor);
-        }
+        }*/
     }
 }

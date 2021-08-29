@@ -1,10 +1,11 @@
 package com.gitlab.impervious.utils;
 
-import com.gitlab.impervious.JoshBot;
+import com.gitlab.impervious.FIABot;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
 import java.io.File;
@@ -21,7 +22,7 @@ public class Util {
 
     static {
         try {
-            File jarPath = new File(JoshBot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
+            File jarPath = new File(FIABot.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParentFile();
             botPath = new File(jarPath, "data");
             botPath.mkdir();
         } catch (URISyntaxException e) {
@@ -46,6 +47,14 @@ public class Util {
         } catch(IOException ex) {
             ex.printStackTrace();
             return Optional.empty();
+        }
+    }
+
+    public static String[] splitArgs(String args) {
+        if(args.isEmpty() || StringUtils.isWhitespace(args)) {
+            return new String[0];
+        } else {
+            return args.split("\\s+");
         }
     }
 
@@ -87,8 +96,28 @@ public class Util {
         }
     }
 
+    public static void sendEmbed(String author, String authorURL, String authorIcon, String description, String footer) {
+            new EmbedBuilder()
+                .setAuthor(author, authorURL, authorIcon)
+                .setColor(new Color(212, 39, 177))
+                .setTitle(description, authorURL)
+                .setFooter(footer)
+                .setTimestamp(Instant.now())
+                .build();
+    }
+
+    /*public static void sendEmbed(String msg, String image) {
+        Channels.NOTIFICATIONS.getChannel().sendMessageEmbeds(new EmbedBuilder()
+                .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
+                .setDescription(msg)
+                .setImage(image)
+                .setFooter("The Hoob" + "/#" + "notifications", null)
+                .setTimestamp(Instant.now())
+                .build()).queue();
+    }
+
     public static void notifyGameDeal(String title, String msg, String footer, TemporalAccessor timestamp) {
-        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+        Channels.NOTIFICATIONS.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setTitle(title)
                 .setColor(new Color(20, 61, 113))
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
@@ -99,7 +128,7 @@ public class Util {
     }
 
     public static void notifyPayment(String msg, Color color) {
-        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+        Channels.NOTIFICATIONS.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setColor(color)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
                 .setDescription(msg)
@@ -109,7 +138,7 @@ public class Util {
     }
 
     public static void notifyWeather(String title, String msg, String iconUrl, TemporalAccessor timestamp, Color color) {
-        Channels.NOTIFICATIONS.getChannel().sendMessage(new EmbedBuilder()
+        Channels.NOTIFICATIONS.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setColor(color)
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", iconUrl)
                 .setTitle(title)
@@ -117,7 +146,7 @@ public class Util {
                 .setFooter("The Hoob" + "/#" + "notifications", null)
                 .setTimestamp(timestamp)
                 .build()).queue();
-    }
+    }*/
 
     public static void errorLog(Message message, Exception e) {
         e.printStackTrace();
@@ -134,7 +163,7 @@ public class Util {
             stackString = stackString.substring(0, 1024);
         }
 
-        Channels.ERRORS.getChannel().sendMessage(bld
+        /*Channels.ERRORS.getChannel().sendMessageEmbeds(bld
                 .setColor(Color.RED)
                 .setTimestamp(Instant.now())
                 .setAuthor(message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator(), null, message.getAuthor().getEffectiveAvatarUrl())
@@ -142,7 +171,7 @@ public class Util {
                 .addField("\u200B", "\u200B", false)
                 .addField("Exception:", e.toString(), false)
                 .addField("Stack:", stackString, false)
-                .build()).queue();
+                .build()).queue();*/
     }
 
     public static void errorLog(String msg, Exception e) {
@@ -160,7 +189,7 @@ public class Util {
             stackString = stackString.substring(0, 1024);
         }
 
-        Channels.ERRORS.getChannel().sendMessage(bld
+        /*Channels.ERRORS.getChannel().sendMessageEmbeds(bld
                 .setColor(Color.RED)
                 .setTimestamp(Instant.now())
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
@@ -168,7 +197,7 @@ public class Util {
                 .addField("\u200B", "\u200B", false)
                 .addField("Exception:", e.toString(), false)
                 .addField("Stack:", stackString, false)
-                .build()).queue();
+                .build()).queue();*/
     }
 
     public static void errorLog(Exception e) {
@@ -186,23 +215,23 @@ public class Util {
             stackString = stackString.substring(0, 1024);
         }
 
-        Channels.ERRORS.getChannel().sendMessage(bld
+        /*Channels.ERRORS.getChannel().sendMessageEmbeds(bld
                 .setColor(Color.RED)
                 .setTimestamp(Instant.now())
                 .setAuthor("JoshBot" + "#" + "9856", "http://google.com", "https://i.imgur.com/YsZxQjO.jpg")
                 .addField("\u200B", "\u200B", false)
                 .addField("Exception:", e.toString(), false)
                 .addField("Stack:", stackString, false)
-                .build()).queue();
+                .build()).queue();*/
     }
 
     public static void botLog(Message msg) {
-        Channels.LOG.getChannel().sendMessage(new EmbedBuilder()
+        /*Channels.LOG.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setColor(Color.CYAN)
                 .setAuthor(msg.getAuthor().getName() + "#" + msg.getAuthor().getDiscriminator(), null, msg.getAuthor().getEffectiveAvatarUrl())
                 .setDescription(msg.getContentDisplay())
                 .setFooter(msg.getGuild().getName() + "/#" + msg.getTextChannel().getName(), msg.getGuild().getIconUrl())
                 .setTimestamp(Instant.now())
-                .build()).queue();
+                .build()).queue();*/
     }
 }

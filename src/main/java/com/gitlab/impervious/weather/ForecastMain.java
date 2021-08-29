@@ -7,11 +7,17 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndFeedImpl;
 
 public class ForecastMain {
 
     public ForecastMain() throws Exception {
     }
+
+
+
+    // GENERAL WEATHER STUFF
 
     private static String readURL() throws Exception {
         BufferedReader reader = null;

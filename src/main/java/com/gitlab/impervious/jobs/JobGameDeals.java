@@ -37,6 +37,6 @@ public class JobGameDeals implements Job {
             gameDeals.addField(s, dealsArray.get(s), false);
         }
 
-        Channels.NOTIFICATIONS.getChannel().sendMessage(gameDeals.build()).queue();
+        //Channels.NOTIFICATIONS.getChannel().sendMessage(gameDeals.build()).queue();
     }
 }
