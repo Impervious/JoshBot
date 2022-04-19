@@ -86,9 +86,9 @@ public class JoshBot {
                 .build();
 
         //TO-DO
-        JobDetail weatherAlertJob = newJob(JobWeatherAlert.class)
+        /*JobDetail weatherAlertJob = newJob(JobWeatherAlert.class)
                 .withIdentity("hourlyWeatherAlert", "group1")
-                .build();
+                .build();*/
 
         /*
          *  TRIGGERS
