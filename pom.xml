@@ -168,12 +168,6 @@
             <version>1.0.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.apptastic</groupId>
-            <artifactId>rssreader</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-
     </dependencies>
 
 </project>
